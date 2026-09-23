@@ -7,7 +7,7 @@ import type { ActionResult } from "@/lib/action-types";
 import { createClient, updateClient } from "@/server/actions/clients";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Field, FormError, FormGrid, FormSection, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, Field, FormError, FormGrid, FormSection, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import type { Option } from "@/server/queries/common";
 
@@ -37,7 +37,7 @@ export function ClientFormModal({ open, onClose, initial, staff, defaultFy }: { 
   const router = useRouter();
   const editing = !!initial?.id;
   const action = editing ? updateClient.bind(null, initial!.id!) : createClient;
-  const { formAction, err, formError } = useFormAction<{ id: string }>(action as (s: ActionResult<{ id: string }>, fd: FormData) => Promise<ActionResult<{ id: string }>>, {
+  const { formAction, err, formError, pending } = useFormAction<{ id: string }>(action as (s: ActionResult<{ id: string }>, fd: FormData) => Promise<ActionResult<{ id: string }>>, {
     onSuccess: (data) => {
       onClose();
       if (!editing && data?.id) router.push(`/clients/${data.id}`);
@@ -54,11 +54,11 @@ export function ClientFormModal({ open, onClose, initial, staff, defaultFy }: { 
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="client-form">{editing ? "Save changes" : "Add client"}</SubmitButton>
+          <SubmitButton pending={pending} form="client-form">{editing ? "Save changes" : "Add client"}</SubmitButton>
         </>
       }
     >
-      <form id="client-form" action={formAction} noValidate>
+      <ActionForm id="client-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormSection title="Identity">
           <FormGrid>
@@ -137,7 +137,7 @@ export function ClientFormModal({ open, onClose, initial, staff, defaultFy }: { 
             <Textarea id="notes" name="notes" defaultValue={v.notes ?? ""} rows={3} />
           </Field>
         </FormSection>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

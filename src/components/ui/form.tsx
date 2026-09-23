@@ -2,7 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 import { AlertCircle } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
+import { createContext, useContext, useTransition, type ComponentProps, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { Button, type ButtonVariant } from "./button";
 
@@ -116,9 +116,38 @@ export function FormError({ message }: { message?: string | null }) {
   );
 }
 
+const PendingCtx = createContext<boolean | null>(null);
+
+/**
+ * <form> for server actions that does NOT auto-reset on submit (React 19 resets forms passed an
+ * `action`, which would wipe the user's input when validation fails). Submits in a transition.
+ */
+export function ActionForm({ action, children, ...rest }: Omit<ComponentProps<"form">, "action" | "onSubmit"> & { action: (fd: FormData) => void }) {
+  const [pending, start] = useTransition();
+  return (
+    <PendingCtx.Provider value={pending}>
+      <form
+        noValidate
+        {...rest}
+        aria-busy={pending}
+        onSubmit={(e) => {
+          e.preventDefault();
+          const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+          const fd = new FormData(e.currentTarget, submitter);
+          start(() => action(fd));
+        }}
+      >
+        {children}
+      </form>
+    </PendingCtx.Provider>
+  );
+}
+
 /** Submit button that reflects the parent form's pending state. */
-export function SubmitButton({ children, variant = "primary", pendingLabel = "Saving…", className, form, name, value }: { children: ReactNode; variant?: ButtonVariant; pendingLabel?: string; className?: string; form?: string; name?: string; value?: string }) {
-  const { pending } = useFormStatus();
+export function SubmitButton({ children, variant = "primary", pendingLabel = "Saving…", className, form, name, value, pending: pendingProp }: { children: ReactNode; variant?: ButtonVariant; pendingLabel?: string; className?: string; form?: string; name?: string; value?: string; pending?: boolean }) {
+  const status = useFormStatus();
+  const ctx = useContext(PendingCtx);
+  const pending = pendingProp ?? ctx ?? status.pending;
   return (
     <Button type="submit" variant={variant} disabled={pending} aria-busy={pending} className={className} form={form} name={name} value={value}>
       {pending && <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-r-transparent" aria-hidden />}

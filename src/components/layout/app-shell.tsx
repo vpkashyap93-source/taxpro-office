@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, useTransition, type ReactNode } from "react";
+import { useState, useTransition, type ReactNode } from "react";
 import {
   Bell,
   CircleHelp,
@@ -18,6 +18,7 @@ import {
   Search,
   Settings,
   UserPlus,
+  UserRound,
   Users,
   X,
   CheckCheck,
@@ -57,13 +58,6 @@ export function AppShell(props: ShellProps) {
   const [mobileSearch, setMobileSearch] = useState(false);
   const [drawer, setDrawer] = useState(false);
   const [quick, setQuick] = useState(false);
-  const pathname = usePathname();
-
-  // Close overlays on navigation.
-  useEffect(() => {
-    setDrawer(false);
-    setQuick(false);
-  }, [pathname]);
 
   return (
     <ToastProvider>
@@ -197,6 +191,9 @@ function ProfileMenu({ user, canSettings, compact }: { user: ShellProps["user"];
             <p className="mt-1 text-xs text-ink-3">{user.designation ?? user.role}</p>
           </div>
           <div className="my-1 h-px bg-line" />
+          <Link onClick={close} href="/account" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-ink-2 hover:bg-subtle">
+            <UserRound className="h-4 w-4" /> My account
+          </Link>
           <Link onClick={close} href="/tasks?view=mine" className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm text-ink-2 hover:bg-subtle">
             <ListChecks className="h-4 w-4" /> My tasks
           </Link>
@@ -279,7 +276,7 @@ function QuickAddSheet({ actions, onClose }: { actions: string[]; onClose: () =>
             const Icon = QUICK_ICONS[a.label] ?? Plus;
             return (
               <li key={a.href}>
-                <Link href={a.href} className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-subtle px-2 py-4 text-center text-[12.5px] font-medium text-ink active:bg-navy-50">
+                <Link href={a.href} onClick={onClose} className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-subtle px-2 py-4 text-center text-[12.5px] font-medium text-ink active:bg-navy-50">
                   <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-navy-900 text-white">
                     <Icon className="h-5 w-5" />
                   </span>

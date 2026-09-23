@@ -8,7 +8,7 @@ import { formatINR, parseRupeesToPaise } from "@/lib/money";
 import { saveRecurring } from "@/server/actions/billing";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Checkbox, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, Checkbox, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 
 type Service = (typeof BILLING_SERVICES)[number];
@@ -33,7 +33,7 @@ export function RecurringFormModal({ initial, clients, onClose }: { initial: Rec
     initial.items.length ? initial.items.map((i, k) => ({ key: k, service: i.service, description: i.description ?? "", amount: String(i.amount / 100) })) : [{ key: 0, service: "Accounting" as Service, description: "", amount: "" }],
   );
   const action = saveRecurring.bind(null, initial.id ?? null) as (s: ActionResult, fd: FormData) => Promise<ActionResult>;
-  const { formAction, err, formError } = useFormAction(action, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(action, { onSuccess: onClose });
   const total = lines.reduce((a, l) => a + (Number.isFinite(parseRupeesToPaise(l.amount)) ? parseRupeesToPaise(l.amount) : 0), 0);
   const itemsJson = useMemo(() => JSON.stringify(lines.filter((l) => l.amount.trim()).map((l) => ({ service: l.service, description: l.description, amount: l.amount }))), [lines]);
 
@@ -47,11 +47,11 @@ export function RecurringFormModal({ initial, clients, onClose }: { initial: Rec
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="recurring-form">{editing ? "Save plan" : "Create plan"}</SubmitButton>
+          <SubmitButton pending={pending} form="recurring-form">{editing ? "Save plan" : "Create plan"}</SubmitButton>
         </>
       }
     >
-      <form id="recurring-form" action={formAction} noValidate>
+      <ActionForm id="recurring-form" action={formAction} noValidate>
         <FormError message={formError} />
         <input type="hidden" name="items" value={itemsJson} />
         <FormGrid>
@@ -127,7 +127,7 @@ export function RecurringFormModal({ initial, clients, onClose }: { initial: Rec
           <Checkbox name="active" defaultChecked={initial.active} label="Recurring Billing: ON" />
           <Textarea name="notes" defaultValue={initial.notes ?? ""} placeholder="Internal notes (optional)" rows={2} aria-label="Notes" />
         </div>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

@@ -6,7 +6,7 @@ import type { ActionResult } from "@/lib/action-types";
 import { deleteEvent, saveEvent } from "@/server/actions/work";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import { useUrlState } from "@/components/ui/use-url-state";
 import { ConfirmDelete } from "@/components/ui/confirm-delete";
@@ -26,7 +26,7 @@ export interface EventInitial {
 function EventModal({ initial, clients, onClose, canEdit }: { initial: EventInitial; clients: { value: string; label: string }[]; onClose: () => void; canEdit: boolean }) {
   const editing = !!initial.id;
   const action = saveEvent.bind(null, initial.id ?? null) as (s: ActionResult, fd: FormData) => Promise<ActionResult>;
-  const { formAction, err, formError } = useFormAction(action, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(action, { onSuccess: onClose });
   return (
     <Modal
       open
@@ -39,14 +39,14 @@ function EventModal({ initial, clients, onClose, canEdit }: { initial: EventInit
             {editing && <ConfirmDelete title="Delete this event?" onConfirm={() => deleteEvent(initial.id!)} onDone={onClose} />}
             <span className="flex-1" />
             <Button variant="secondary" onClick={onClose}>Cancel</Button>
-            <SubmitButton form="event-form">{editing ? "Save" : "Add event"}</SubmitButton>
+            <SubmitButton pending={pending} form="event-form">{editing ? "Save" : "Add event"}</SubmitButton>
           </>
         ) : (
           <Button onClick={onClose}>Close</Button>
         )
       }
     >
-      <form id="event-form" action={formAction} noValidate>
+      <ActionForm id="event-form" action={formAction} noValidate>
         <FormError message={formError} />
         <fieldset disabled={!canEdit}>
           <FormGrid>
@@ -78,7 +78,7 @@ function EventModal({ initial, clients, onClose, canEdit }: { initial: EventInit
             </Field>
           </FormGrid>
         </fieldset>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

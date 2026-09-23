@@ -6,7 +6,7 @@ import type { ActionResult } from "@/lib/action-types";
 import { deleteTask, saveTask } from "@/server/actions/work";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import { useUrlState } from "@/components/ui/use-url-state";
 import { ConfirmDelete } from "@/components/ui/confirm-delete";
@@ -33,7 +33,7 @@ interface Ctx {
 export function TaskFormModal({ initial, ctx, onClose }: { initial: TaskInitial; ctx: Ctx; onClose: () => void }) {
   const editing = !!initial.id;
   const action = saveTask.bind(null, initial.id ?? null) as (s: ActionResult, fd: FormData) => Promise<ActionResult>;
-  const { formAction, err, formError } = useFormAction(action, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(action, { onSuccess: onClose });
   return (
     <Modal
       open
@@ -44,11 +44,11 @@ export function TaskFormModal({ initial, ctx, onClose }: { initial: TaskInitial;
           {editing && <ConfirmDelete title="Delete this task?" onConfirm={() => deleteTask(initial.id!)} onDone={onClose} />}
           <span className="flex-1" />
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="task-form">{editing ? "Save changes" : "Add task"}</SubmitButton>
+          <SubmitButton pending={pending} form="task-form">{editing ? "Save changes" : "Add task"}</SubmitButton>
         </>
       }
     >
-      <form id="task-form" action={formAction} noValidate>
+      <ActionForm id="task-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormGrid>
           <Field label="Task Name" htmlFor="tk-title" required error={err("title")} className="sm:col-span-2">
@@ -76,7 +76,7 @@ export function TaskFormModal({ initial, ctx, onClose }: { initial: TaskInitial;
             <Textarea id="tk-notes" name="notes" defaultValue={initial.notes ?? ""} rows={3} />
           </Field>
         </FormGrid>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

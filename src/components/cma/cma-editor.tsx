@@ -7,7 +7,7 @@ import { benchmarkState, CMA_INPUT_FIELDS, computeCma, type CmaInputs } from "@/
 import { formatMetric } from "@/lib/format";
 import { saveCma } from "@/server/actions/cma";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
-import { DatePicker, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, DatePicker, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import { cn } from "@/lib/cn";
 
@@ -44,7 +44,7 @@ export function CmaEditor({ initial, clients, staff }: { initial: CmaInitial; cl
   const inputsJson = JSON.stringify(inputs);
 
   return (
-    <form action={formAction} noValidate className="grid gap-6 xl:grid-cols-[1fr_380px]">
+    <ActionForm action={formAction} noValidate className="grid gap-6 xl:grid-cols-[1fr_380px]">
       <input type="hidden" name="inputs" value={inputsJson} />
       <div className="space-y-6">
         <FormError message={formError} />
@@ -118,6 +118,6 @@ export function CmaEditor({ initial, clients, staff }: { initial: CmaInitial; cl
           </div>
         </Card>
       </div>
-    </form>
+    </ActionForm>
   );
 }

@@ -9,7 +9,7 @@ import * as schema from "./schema";
 export type DB = BetterSQLite3Database<typeof schema>;
 
 function open(): DB {
-  const file = path.resolve(process.env.DATABASE_PATH ?? "./data/taxpro.db");
+  const file = path.resolve(/*turbopackIgnore: true*/ process.env.DATABASE_PATH ?? "./data/taxpro.db");
   fs.mkdirSync(path.dirname(file), { recursive: true });
   const sqlite = new Database(file);
   sqlite.pragma("journal_mode = WAL");
@@ -17,7 +17,7 @@ function open(): DB {
   sqlite.pragma("busy_timeout = 5000");
   const db = drizzle(sqlite, { schema });
   // Idempotent: applies any pending SQL migrations from ./drizzle.
-  migrate(db, { migrationsFolder: path.resolve("./drizzle") });
+  migrate(db, { migrationsFolder: path.resolve(/*turbopackIgnore: true*/ process.cwd(), "drizzle") });
   return db;
 }
 

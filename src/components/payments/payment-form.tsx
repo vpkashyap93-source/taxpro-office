@@ -6,7 +6,7 @@ import { formatINR, parseRupeesToPaise } from "@/lib/money";
 import { recordPayment } from "@/server/actions/billing";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { DatePicker, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, DatePicker, Field, FormError, FormGrid, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import { useUrlState } from "@/components/ui/use-url-state";
 
@@ -25,7 +25,7 @@ export function PaymentFormModal({ clients, invoices, today, onClose, initialCli
   const [invoiceId, setInvoiceId] = useState(initialInvoice ?? "");
   const inv = invoices.find((i) => i.id === invoiceId);
   const [amount, setAmount] = useState(inv ? String(inv.outstanding / 100) : "");
-  const { formAction, err, formError } = useFormAction(recordPayment, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(recordPayment, { onSuccess: onClose });
   const open = invoices.filter((i) => i.clientId === clientId);
   const entered = parseRupeesToPaise(amount);
   const after = inv && Number.isFinite(entered) ? inv.outstanding - entered : null;
@@ -39,11 +39,11 @@ export function PaymentFormModal({ clients, invoices, today, onClose, initialCli
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="payment-form" variant="success">Record payment</SubmitButton>
+          <SubmitButton pending={pending} form="payment-form" variant="success">Record payment</SubmitButton>
         </>
       }
     >
-      <form id="payment-form" action={formAction} noValidate>
+      <ActionForm id="payment-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormGrid>
           <Field label="Client" htmlFor="pay-client" required error={err("clientId")} className="sm:col-span-2">
@@ -110,7 +110,7 @@ export function PaymentFormModal({ clients, invoices, today, onClose, initialCli
             <Textarea id="pay-notes" name="notes" rows={2} />
           </Field>
         </FormGrid>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

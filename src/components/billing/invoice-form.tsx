@@ -9,7 +9,7 @@ import { computeInvoiceTotals, formatINR, parseRupeesToPaise } from "@/lib/money
 import { saveInvoice } from "@/server/actions/billing";
 import { Card, CardBody, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DatePicker, Field, FormError, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, DatePicker, Field, FormError, Input, MoneyInput, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 
 type Service = (typeof BILLING_SERVICES)[number];
@@ -77,7 +77,7 @@ export function InvoiceForm({
   const update = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
 
   return (
-    <form action={formAction} noValidate className="grid gap-6 xl:grid-cols-3">
+    <ActionForm action={formAction} noValidate className="grid gap-6 xl:grid-cols-3">
       <input type="hidden" name="items" value={itemsJson} />
       <div className="space-y-6 xl:col-span-2">
         <FormError message={formError} />
@@ -215,7 +215,7 @@ export function InvoiceForm({
           </CardBody>
         </Card>
       </div>
-    </form>
+    </ActionForm>
   );
 }
 

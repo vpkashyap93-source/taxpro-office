@@ -21,7 +21,7 @@ import {
 } from "@/server/actions/documents";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Checkbox, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, Checkbox, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { InlineStatus } from "@/components/ui/inline-status";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { ConfirmDelete } from "@/components/ui/confirm-delete";
@@ -187,7 +187,7 @@ export function ChecklistPanel({ checklist: c, firmName, canEdit, onClose }: { c
 }
 
 function UploadForm({ doc, onDone }: { doc: { id: string; name: string }; onDone: () => void }) {
-  const { formAction, formError } = useFormAction(uploadDocument, { onSuccess: onDone });
+  const { formAction, formError, pending } = useFormAction(uploadDocument, { onSuccess: onDone });
   return (
     <Modal
       open
@@ -198,16 +198,16 @@ function UploadForm({ doc, onDone }: { doc: { id: string; name: string }; onDone
       footer={
         <>
           <Button variant="secondary" onClick={onDone}>Cancel</Button>
-          <SubmitButton form="upload-form" pendingLabel="Uploading…">Upload</SubmitButton>
+          <SubmitButton pending={pending} form="upload-form" pendingLabel="Uploading…">Upload</SubmitButton>
         </>
       }
     >
-      <form id="upload-form" action={formAction}>
+      <ActionForm id="upload-form" action={formAction}>
         <FormError message={formError} />
         <input type="hidden" name="documentId" value={doc.id} />
         <FilePicker />
         <Checkbox name="partial" label="Only part of this document was received" className="mt-4" />
-      </form>
+      </ActionForm>
     </Modal>
   );
 }
@@ -267,7 +267,7 @@ export function NewChecklistModal({ clients, periods, onClose, initialClient }: 
   const [period, setPeriod] = useState(periods[1] ?? "");
   const [items, setItems] = useState<string[]>(DOC_TEMPLATES.GST!.slice(0, 4));
   const [extra, setExtra] = useState("");
-  const { formAction, err, formError } = useFormAction(createChecklist, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(createChecklist, { onSuccess: onClose });
   const template = [...new Set([...(DOC_TEMPLATES[category] ?? []), ...items])];
   return (
     <Modal
@@ -279,11 +279,11 @@ export function NewChecklistModal({ clients, periods, onClose, initialClient }: 
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="checklist-form">Create request</SubmitButton>
+          <SubmitButton pending={pending} form="checklist-form">Create request</SubmitButton>
         </>
       }
     >
-      <form id="checklist-form" action={formAction} noValidate>
+      <ActionForm id="checklist-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormGrid>
           <Field label="Client" htmlFor="dc-client" required error={err("clientId")} className="sm:col-span-2">
@@ -331,7 +331,7 @@ export function NewChecklistModal({ clients, periods, onClose, initialClient }: 
         <Field label="Notes" htmlFor="dc-notes" className="mt-4">
           <Textarea id="dc-notes" name="notes" rows={2} />
         </Field>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }
@@ -343,7 +343,7 @@ export function QuickUploadModal({ checklists, onClose }: { checklists: Checklis
   const [checklistId, setChecklistId] = useState("");
   const lists = checklists.filter((c) => c.clientId === clientId);
   const items = lists.find((l) => l.id === checklistId)?.items ?? [];
-  const { formAction, err, formError } = useFormAction(uploadDocument, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(uploadDocument, { onSuccess: onClose });
   return (
     <Modal
       open
@@ -353,11 +353,11 @@ export function QuickUploadModal({ checklists, onClose }: { checklists: Checklis
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="quick-upload" pendingLabel="Uploading…">Upload</SubmitButton>
+          <SubmitButton pending={pending} form="quick-upload" pendingLabel="Uploading…">Upload</SubmitButton>
         </>
       }
     >
-      <form id="quick-upload" action={formAction}>
+      <ActionForm id="quick-upload" action={formAction}>
         <FormError message={formError} />
         <FormGrid cols={1}>
           <Field label="Client" htmlFor="qu-client" required>
@@ -373,7 +373,7 @@ export function QuickUploadModal({ checklists, onClose }: { checklists: Checklis
         <div className="mt-4">
           <FilePicker />
         </div>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }

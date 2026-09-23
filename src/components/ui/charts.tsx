@@ -3,6 +3,10 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { formatINR, formatINRCompact } from "@/lib/money";
 
+export type Unit = "money" | "count";
+const fmtAxis = (v: number, unit: Unit) => (unit === "money" ? formatINRCompact(v) : v.toLocaleString("en-IN"));
+const fmtFull = (v: number, unit: Unit) => (unit === "money" ? formatINR(v) : v.toLocaleString("en-IN"));
+
 export interface SeriesDef {
   key: string;
   label: string;
@@ -24,8 +28,8 @@ function useWidth(initial = 640) {
 }
 
 /** "Nice" axis maximum and tick step for money values in paise. */
-function niceScale(max: number, ticks = 4) {
-  if (max <= 0) return { top: 100_00 * ticks, step: 100_00 };
+function niceScale(max: number, ticks = 4, unit: Unit = "money") {
+  if (max <= 0) return unit === "money" ? { top: 100_00 * ticks, step: 100_00 } : { top: ticks, step: 1 };
   const raw = max / ticks;
   const mag = Math.pow(10, Math.floor(Math.log10(raw)));
   const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw) ?? 10 * mag;
@@ -41,16 +45,18 @@ export function GroupedBarChart({
   series,
   height = 240,
   ariaLabel,
+  unit = "money",
 }: {
   data: { label: string; values: Record<string, number> }[];
   series: SeriesDef[];
   height?: number;
   ariaLabel: string;
+  unit?: Unit;
 }) {
   const [hover, setHover] = useState<number | null>(null);
   const { ref, w: W } = useWidth();
   const max = Math.max(0, ...data.flatMap((d) => series.map((s) => d.values[s.key] ?? 0)));
-  const { top, step } = niceScale(max);
+  const { top, step } = niceScale(max, 4, unit);
   const H = height;
   const pad = { l: 52, r: 8, t: 12, b: 28 };
   const plotW = W - pad.l - pad.r;
@@ -78,7 +84,7 @@ export function GroupedBarChart({
           <g key={t}>
             <line x1={pad.l} x2={W - pad.r} y1={y(t)} y2={y(t)} stroke="var(--color-line)" strokeWidth={1} />
             <text x={pad.l - 8} y={y(t)} textAnchor="end" dominantBaseline="central" className="fill-ink-3 text-[11px] tnum">
-              {formatINRCompact(t)}
+              {fmtAxis(t, unit)}
             </text>
           </g>
         ))}
@@ -103,7 +109,7 @@ export function GroupedBarChart({
                 onFocus={() => setHover(i)}
                 onBlur={() => setHover(null)}
                 tabIndex={0}
-                aria-label={`${d.label}: ${series.map((s) => `${s.label} ${formatINR(d.values[s.key] ?? 0)}`).join(", ")}`}
+                aria-label={`${d.label}: ${series.map((s) => `${s.label} ${fmtFull(d.values[s.key] ?? 0, unit)}`).join(", ")}`}
               />
             </g>
           );
@@ -121,7 +127,7 @@ export function GroupedBarChart({
                 <span className="h-2 w-2 rounded-sm" style={{ background: s.color }} />
                 {s.label}
               </span>
-              <span className="tnum font-medium text-ink">{formatINR(data[hover].values[s.key] ?? 0)}</span>
+              <span className="tnum font-medium text-ink">{fmtFull(data[hover].values[s.key] ?? 0, unit)}</span>
             </div>
           ))}
         </div>
@@ -207,7 +213,7 @@ export function TrendChart({ data, color = "var(--chart-billed)", height = 200, 
 }
 
 /** Horizontal bars for ranked single-series values (e.g. service-wise revenue). */
-export function HBarList({ data, color = "var(--chart-billed)", format = formatINR }: { data: { label: string; value: number; sub?: string }[]; color?: string; format?: (v: number) => string }) {
+export function HBarList({ data, color = "var(--chart-billed)", unit = "money" }: { data: { label: string; value: number; sub?: string }[]; color?: string; unit?: Unit }) {
   const max = Math.max(1, ...data.map((d) => d.value));
   return (
     <ul className="space-y-3">
@@ -215,7 +221,7 @@ export function HBarList({ data, color = "var(--chart-billed)", format = formatI
         <li key={d.label}>
           <div className="mb-1 flex items-baseline justify-between gap-3 text-[13px]">
             <span className="truncate text-ink-2">{d.label}</span>
-            <span className="tnum shrink-0 font-medium text-ink">{format(d.value)}</span>
+            <span className="tnum shrink-0 font-medium text-ink">{fmtFull(d.value, unit)}</span>
           </div>
           <div className="h-2 w-full rounded-full bg-subtle">
             <div className="h-2 rounded-full" style={{ width: `${(d.value / max) * 100}%`, background: color }} />

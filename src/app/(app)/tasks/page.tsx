@@ -5,7 +5,7 @@ import { requireStaff } from "@/server/auth";
 import { listTasks } from "@/server/queries/work";
 import { clientOptions, staffOptions } from "@/server/queries/common";
 import { setTaskStatus } from "@/server/actions/work";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { PageHeader } from "@/components/ui/page-header";
 import { DataTable } from "@/components/ui/table";
 import { PriorityBadge, StatusBadge } from "@/components/ui/status-badge";

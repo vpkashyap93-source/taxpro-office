@@ -15,7 +15,9 @@ export function useFormAction<T>(
   const toast = useToast();
   const first = useRef(true);
   const cb = useRef(opts.onSuccess);
-  cb.current = opts.onSuccess;
+  useEffect(() => {
+    cb.current = opts.onSuccess;
+  });
   useEffect(() => {
     if (first.current) {
       first.current = false;

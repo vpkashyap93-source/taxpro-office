@@ -10,7 +10,7 @@ export function storage(): StorageDriver {
   const kind = process.env.STORAGE_DRIVER ?? "local";
   switch (kind) {
     case "local":
-      driver = new LocalStorageDriver(path.resolve(process.env.STORAGE_LOCAL_DIR ?? "./data/uploads"));
+      driver = new LocalStorageDriver(path.resolve(/*turbopackIgnore: true*/ process.env.STORAGE_LOCAL_DIR ?? "./data/uploads"));
       return driver;
     default:
       // Cloud drivers (e.g. "s3") plug in here; credentials come from environment variables.

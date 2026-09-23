@@ -8,7 +8,7 @@ import { addMonths, parseISODate, toISODate } from "@/lib/dates";
 import { bulkCreateCompliance, deleteCompliance, saveCompliance } from "@/server/actions/work";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
-import { Checkbox, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
+import { ActionForm, Checkbox, DatePicker, Field, FormError, FormGrid, Input, Select, SubmitButton, Textarea } from "@/components/ui/form";
 import { useFormAction } from "@/components/ui/use-form-action";
 import { useUrlState } from "@/components/ui/use-url-state";
 import { ConfirmDelete } from "@/components/ui/confirm-delete";
@@ -70,7 +70,7 @@ export function ComplianceFormModal({ initial, ctx, onClose }: { initial: Compli
   const [dueTouched, setDueTouched] = useState(!!initial.dueDate);
   const [status, setStatus] = useState(initial.status ?? "Not Started");
   const action = saveCompliance.bind(null, initial.id ?? null) as (s: ActionResult, fd: FormData) => Promise<ActionResult>;
-  const { formAction, err, formError } = useFormAction(action, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(action, { onSuccess: onClose });
   const suggestion = suggestDue(ctx.types.find((t) => t.category === category && t.name === type), period);
   const effectiveDue = dueTouched ? due : (suggestion ?? due);
 
@@ -86,11 +86,11 @@ export function ComplianceFormModal({ initial, ctx, onClose }: { initial: Compli
           {editing && <ConfirmDelete title="Delete this compliance task?" onConfirm={() => deleteCompliance(initial.id!)} onDone={onClose} />}
           <span className="flex-1" />
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="compliance-form">{editing ? "Save changes" : "Create"}</SubmitButton>
+          <SubmitButton pending={pending} form="compliance-form">{editing ? "Save changes" : "Create"}</SubmitButton>
         </>
       }
     >
-      <form id="compliance-form" action={formAction} noValidate>
+      <ActionForm id="compliance-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormGrid>
           <Field label="Client" htmlFor="cf-client" required error={err("clientId")} className="sm:col-span-2">
@@ -161,7 +161,7 @@ export function ComplianceFormModal({ initial, ctx, onClose }: { initial: Compli
             <Textarea id="cf-notes" name="notes" defaultValue={initial.notes ?? ""} rows={3} />
           </Field>
         </FormGrid>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }
@@ -174,7 +174,7 @@ export function BulkComplianceModal({ ctx, onClose }: { ctx: Ctx; onClose: () =>
   const serviceFor: Record<string, string> = { GST: "GST", ITR: "ITR", TDS: "TDS", CMA: "CMA", ROC: "ROC", Audit: "Audit" };
   const eligible = useMemo(() => ctx.clients.filter((c) => !serviceFor[category] || c.services?.includes(serviceFor[category]!)), [ctx.clients, category]); // eslint-disable-line react-hooks/exhaustive-deps
   const [selected, setSelected] = useState<Set<string>>(() => new Set(eligible.map((c) => c.value)));
-  const { formAction, err, formError } = useFormAction(bulkCreateCompliance, { onSuccess: onClose });
+  const { formAction, err, formError, pending } = useFormAction(bulkCreateCompliance, { onSuccess: onClose });
   const suggestion = suggestDue(ctx.types.find((t) => t.category === category && t.name === type), period);
 
   return (
@@ -187,11 +187,11 @@ export function BulkComplianceModal({ ctx, onClose }: { ctx: Ctx; onClose: () =>
       footer={
         <>
           <Button variant="secondary" onClick={onClose}>Cancel</Button>
-          <SubmitButton form="bulk-form">Create for {selected.size} clients</SubmitButton>
+          <SubmitButton pending={pending} form="bulk-form">Create for {selected.size} clients</SubmitButton>
         </>
       }
     >
-      <form id="bulk-form" action={formAction} noValidate>
+      <ActionForm id="bulk-form" action={formAction} noValidate>
         <FormError message={formError} />
         <FormGrid>
           <Field label="Category" htmlFor="bk-cat">
@@ -262,7 +262,7 @@ export function BulkComplianceModal({ ctx, onClose }: { ctx: Ctx; onClose: () =>
             ))}
           </ul>
         </div>
-      </form>
+      </ActionForm>
     </Modal>
   );
 }
