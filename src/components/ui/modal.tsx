@@ -55,7 +55,7 @@ export function Modal({
       )}
     >
       {open && (
-        <div className="flex max-h-[92dvh] flex-col sm:max-h-[88vh]">
+        <div autoFocus tabIndex={-1} className="flex max-h-[92dvh] flex-col outline-none sm:max-h-[88vh]">
           <div className="flex items-start justify-between gap-4 border-b border-line px-5 py-4 sm:px-6">
             <div>
               <h2 id={titleId} className="text-base font-semibold tracking-[-0.01em]">
