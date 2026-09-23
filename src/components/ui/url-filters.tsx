@@ -55,7 +55,7 @@ export function SelectFilter({ param, options, placeholder, label, className }: 
   );
 }
 
-export function DateFilter({ param, label }: { param: string; label: string }) {
+export function DateFilter({ param, label, fallback }: { param: string; label: string; fallback?: string }) {
   const { set, params } = useSetParam();
-  return <input type="date" aria-label={label} title={label} className={cn(inputClass, "tnum w-auto")} value={params.get(param) ?? ""} onChange={(e) => set({ [param]: e.target.value || null })} />;
+  return <input type="date" aria-label={label} title={label} className={cn(inputClass, "tnum w-auto")} value={params.get(param) ?? fallback ?? ""} onChange={(e) => set({ [param]: e.target.value || null })} />;
 }

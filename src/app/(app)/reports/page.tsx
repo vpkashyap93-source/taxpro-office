@@ -76,8 +76,8 @@ export default async function ReportsPage({ searchParams }: { searchParams: Sear
         <div className="min-w-0 space-y-4">
           <Card className="no-print">
             <div className="flex flex-wrap items-end gap-2 p-4">
-              <label className="text-xs text-ink-3">From<DateFilter param="from" label="From date" /></label>
-              <label className="text-xs text-ink-3">To<DateFilter param="to" label="To date" /></label>
+              <label className="grid gap-1 text-xs text-ink-3">From<DateFilter param="from" label="From date" fallback={filters.from} /></label>
+              <label className="grid gap-1 text-xs text-ink-3">To<DateFilter param="to" label="To date" fallback={filters.to} /></label>
               <SelectFilter param="fy" label="Financial year" placeholder={`FY ${filters.fy}`} options={fyOptions.map((f) => ({ value: f, label: `FY ${f}` }))} />
               <SelectFilter param="client" label="Client" placeholder="All clients" options={clientOptions(auth.firm.id, { includeInactive: true })} className="max-w-52" />
               <SelectFilter param="service" label="Service" placeholder="All services" options={isWork ? COMPLIANCE_CATEGORIES : BILLING_SERVICES} />
@@ -127,7 +127,7 @@ export default async function ReportsPage({ searchParams }: { searchParams: Sear
                       {report.rows.slice(0, 500).map((row, i) => (
                         <tr key={i} className="border-b border-line last:border-0">
                           {report.columns.map((c) => (
-                            <td key={c.key} className={cn("px-4 py-2.5 first:ps-5 last:pe-5", ["money", "number", "percent"].includes(c.format) ? "tnum text-right" : "text-ink-2", c.format === "date" && "tnum whitespace-nowrap")}>{cell(c, row[c.key])}</td>
+                            <td key={c.key} className={cn("px-4 py-2.5 first:ps-5 last:pe-5", ["money", "number", "percent"].includes(c.format) ? "tnum text-right whitespace-nowrap" : "text-ink-2 whitespace-nowrap", c.format === "date" && "tnum")}>{cell(c, row[c.key])}</td>
                           ))}
                         </tr>
                       ))}
