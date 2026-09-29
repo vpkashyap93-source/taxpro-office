@@ -20,6 +20,10 @@ npm run dev                    # migrates + seeds demo data on first run, then s
 
 Sign in with **varinder@taxpro.demo** / **TaxPro@2026** (Admin).
 
+### Put it online (open from any phone)
+
+The repo root has a `render.yaml` blueprint. On [render.com](https://render.com): **New → Blueprint** → choose this repository and branch → **Apply**. You get an `https://….onrender.com` link. On the free plan the disk is temporary, so demo data is re-created on each restart/redeploy and the service sleeps when idle (first load can take ~1 minute).
+
 ### Open it on your phone (same Wi-Fi)
 
 ```bash
