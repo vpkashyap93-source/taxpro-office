@@ -91,9 +91,9 @@ export default async function ClientProfilePage({ params, searchParams }: { para
               <dl className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-[13px]">
                 {[["PAN", c.pan], ["GSTIN", c.gstin], ["TAN", c.tan], ["UDYAM", c.udyam]].map(([k, v]) =>
                   v ? (
-                    <div key={k} className="flex gap-1.5">
+                    <div key={k} className="flex min-w-0 gap-1.5">
                       <dt className="text-ink-3">{k}</dt>
-                      <dd className="tnum font-medium text-ink">{v}</dd>
+                      <dd className="tnum min-w-0 font-medium break-all text-ink">{v}</dd>
                     </div>
                   ) : null,
                 )}
@@ -126,7 +126,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
           ].map((m) => (
             <div key={m.label} className="border-line px-5 py-3.5 not-last:border-r max-md:[&:nth-child(2n)]:border-r-0 max-md:border-b">
               <p className="text-xs text-ink-3">{m.label}</p>
-              <p className={`tnum mt-0.5 text-lg font-semibold ${m.tone}`}>{m.value}</p>
+              <p className={`tnum mt-0.5 text-lg font-semibold [overflow-wrap:anywhere] ${m.tone}`}>{m.value}</p>
               <p className="text-xs text-ink-4">{m.sub}</p>
             </div>
           ))}

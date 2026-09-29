@@ -82,7 +82,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Sear
           ].map((m) => (
             <Link key={m.label} href={m.href} className="rounded-[var(--radius-card)] border border-line bg-surface px-4 py-3.5 shadow-[var(--shadow-card)] transition hover:border-line-strong sm:px-5">
               <p className="text-[12.5px] font-medium text-ink-3">{m.label}</p>
-              <p className={cn("tnum mt-0.5 text-xl font-semibold tracking-[-0.02em] sm:text-2xl", m.tone)}>{formatINR(m.value)}</p>
+              <p className={cn("tnum mt-0.5 text-xl font-semibold tracking-[-0.02em] [overflow-wrap:anywhere] sm:text-2xl", m.tone)}>{formatINR(m.value)}</p>
               {m.sub && <p className="text-xs text-ink-4">{m.sub}</p>}
             </Link>
           ))}

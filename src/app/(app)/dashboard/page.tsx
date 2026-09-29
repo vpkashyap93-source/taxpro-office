@@ -189,7 +189,7 @@ export default async function DashboardPage() {
                 ].map((m) => (
                   <div key={m.label} className="rounded-xl border border-line bg-subtle px-3.5 py-3">
                     <dt className="text-xs text-ink-3">{m.label}</dt>
-                    <dd className={cn("tnum mt-0.5 text-lg font-semibold tracking-[-0.01em]", m.tone)}>{formatINR(m.value)}</dd>
+                    <dd className={cn("tnum mt-0.5 text-lg font-semibold tracking-[-0.01em] [overflow-wrap:anywhere]", m.tone)}>{formatINR(m.value)}</dd>
                   </div>
                 ))}
               </dl>
@@ -401,16 +401,16 @@ export default async function DashboardPage() {
           <div className="grid flex-1 grid-cols-2 gap-4 md:grid-cols-4">
             <EcoStat ring={d.paperless.digitalDocsPct} label="Digital Documents" sub={`${d.paperless.digitalDocs} files stored digitally`} />
             <EcoStat ring={d.paperless.digitalBillsPct} label="Digital Bills" sub={`${d.paperless.digitalBills} sent via WhatsApp/email`} />
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               <span className="tnum flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-surface text-lg font-semibold text-brand ring-6 ring-brand-100">{d.paperless.reports}</span>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-medium">Digital Reports</p>
                 <p className="text-xs text-ink-3">CMA & exported reports</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex min-w-0 items-center gap-3">
               <span className="tnum flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-lg font-semibold text-white">{d.paperless.pagesSaved.toLocaleString("en-IN")}</span>
-              <div>
+              <div className="min-w-0">
                 <p className="text-sm font-medium">Pages Saved</p>
                 <p className="text-xs text-ink-3">Est. 1 page per digital bill, document & report</p>
               </div>
@@ -424,9 +424,9 @@ export default async function DashboardPage() {
 
 function EcoStat({ ring, label, sub }: { ring: number; label: string; sub: string }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex min-w-0 items-center gap-3">
       <RingMeter value={ring} label={label} />
-      <div>
+      <div className="min-w-0">
         <p className="text-sm font-medium">{label}</p>
         <p className="text-xs text-ink-3">{sub}</p>
       </div>

@@ -76,8 +76,8 @@ export default async function CmaReportPage({ params }: { params: Promise<{ id: 
             ["Financial year", r.financialYear],
           ].map(([k, v]) => (
             <div key={k} className="flex gap-3">
-              <dt className="w-36 shrink-0 text-ink-3">{k}</dt>
-              <dd className="font-medium text-ink">{v}</dd>
+              <dt className="w-28 shrink-0 text-ink-3 sm:w-36">{k}</dt>
+              <dd className="min-w-0 font-medium [overflow-wrap:anywhere] text-ink">{v}</dd>
             </div>
           ))}
         </dl>

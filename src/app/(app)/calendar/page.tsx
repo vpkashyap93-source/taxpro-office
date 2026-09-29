@@ -126,11 +126,11 @@ export default async function CalendarPage({ searchParams }: { searchParams: Sea
         )}
 
         {view === "week" && (
-          <div className="grid divide-y divide-line md:grid-cols-7 md:divide-x md:divide-y-0">
+          <div className="grid grid-cols-1 divide-y divide-line md:grid-cols-7 md:divide-x md:divide-y-0">
             {days.map((d) => {
               const list = byDay.get(d) ?? [];
               return (
-                <div key={d} className="min-h-40 p-2">
+                <div key={d} className="min-h-40 min-w-0 p-2">
                   <Link href={withParams("/calendar", { category: sp.category }, { view: "day", date: d })} className={cn("mb-2 flex items-baseline gap-1.5 rounded-md px-1 text-sm", d === today && "text-navy-900")}>
                     <span className="text-xs text-ink-3 uppercase">{WEEKDAYS[dow(d)]}</span>
                     <span className={cn("tnum font-semibold", d === today && "rounded-full bg-navy-900 px-1.5 text-white")}>{Number(d.slice(8))}</span>

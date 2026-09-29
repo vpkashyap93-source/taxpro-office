@@ -58,7 +58,7 @@ export default async function PaymentsPage({ searchParams }: { searchParams: Sea
             const body = (
               <>
                 <p className="text-[12.5px] font-medium text-ink-3">{m.label}</p>
-                <p className={`tnum mt-0.5 text-xl font-semibold sm:text-2xl ${m.tone}`}>{m.value}</p>
+                <p className={`tnum mt-0.5 text-xl font-semibold [overflow-wrap:anywhere] sm:text-2xl ${m.tone}`}>{m.value}</p>
                 {m.sub && <p className="text-xs text-ink-4">{m.sub}</p>}
               </>
             );

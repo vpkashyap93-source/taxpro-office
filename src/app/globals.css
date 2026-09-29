@@ -77,6 +77,11 @@
 }
 
 @layer base {
+  /* Safety net: nothing may widen the page on phones (a wider page makes mobile browsers zoom out). */
+  html,
+  body {
+    overflow-x: clip;
+  }
   html {
     -webkit-text-size-adjust: 100%;
     color-scheme: light;

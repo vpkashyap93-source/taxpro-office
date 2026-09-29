@@ -13,7 +13,7 @@ const problems = [];
 const EXTRA = ["/clients?new=1", "/tasks?new=1", "/compliance?new=1", "/compliance?bulk=1", "/payments?new=1", "/documents?new=1", "/documents?upload=1", "/notices?new=1", "/dsc?new=1", "/calendar?new=1", "/team?new=1", "/billing/recurring?new=1", "/calendar?view=week", "/calendar?view=day", "/tasks?view=team", "/settings?type=new"];
 
 async function crawl(email, label, viewport, maxPages) {
-  const ctx = await browser.newContext(viewport.mobile ? { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true } : { viewport: { width: 1440, height: 900 } });
+  const ctx = await browser.newContext(viewport.mobile ? { viewport: { width: Number(process.env.WIDTH ?? 390), height: 800 }, isMobile: true, hasTouch: true } : { viewport: { width: 1440, height: 900 } });
   const page = await ctx.newPage();
   let current = "";
   page.on("pageerror", (e) => problems.push(`[${label}] pageerror on ${current}: ${e.message.slice(0, 160)}`));
@@ -45,6 +45,8 @@ async function crawl(email, label, viewport, maxPages) {
     const status = res?.status() ?? 0;
     if (status >= 400) problems.push(`[${label}] HTTP ${status} ${path}`);
     const info = await page.evaluate(() => {
+      // Measure real overflow: switch off the html/body overflow-x safety net first.
+      document.documentElement.style.overflowX = document.body.style.overflowX = "visible";
       const vw = document.documentElement.clientWidth;
       const text = document.body.innerText;
       const links = [...document.querySelectorAll("a[href^='/']")].map((a) => a.getAttribute("href"));

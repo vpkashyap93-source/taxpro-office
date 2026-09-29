@@ -39,7 +39,7 @@ export default async function DscPage({ searchParams }: { searchParams: SearchPa
         {BUCKETS.map((b) => (
           <Link key={b.key} href={withParams("/dsc", { q: sp.q }, { bucket: sp.bucket === b.key ? undefined : b.key })} aria-current={sp.bucket === b.key ? "true" : undefined} className={cn("rounded-[var(--radius-card)] border bg-surface px-4 py-3.5 shadow-[var(--shadow-card)] transition hover:border-line-strong sm:px-5", sp.bucket === b.key ? "border-navy-900 ring-1 ring-navy-900" : "border-line")}>
             <p className="text-[12.5px] font-medium text-ink-3">{b.label}</p>
-            <p className={cn("tnum mt-0.5 text-2xl font-semibold", b.tone)}>{all.filter((d) => d.bucket === b.key).length}</p>
+            <p className={cn("tnum mt-0.5 text-xl font-semibold [overflow-wrap:anywhere] sm:text-2xl", b.tone)}>{all.filter((d) => d.bucket === b.key).length}</p>
           </Link>
         ))}
       </div>

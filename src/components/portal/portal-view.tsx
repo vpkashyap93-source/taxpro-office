@@ -51,7 +51,7 @@ export function PortalView({ firmId, clientId, tab: rawTab, base, preview }: { f
           <Link key={m.label} href={m.href} scroll={false} className="rounded-[var(--radius-card)] border border-line bg-surface p-4 shadow-[var(--shadow-card)] hover:border-line-strong">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy-50 text-navy-700">{m.icon}</span>
             <p className="mt-3 text-xs text-ink-3">{m.label}</p>
-            <p className={`tnum text-xl font-semibold ${m.tone ?? ""}`}>{m.value}</p>
+            <p className={`tnum text-xl font-semibold [overflow-wrap:anywhere] ${m.tone ?? ""}`}>{m.value}</p>
           </Link>
         ))}
       </div>

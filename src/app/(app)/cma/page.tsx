@@ -43,7 +43,7 @@ export default async function CmaListPage({ searchParams }: { searchParams: Sear
         ].map((m) => (
           <div key={m.label} className="rounded-[var(--radius-card)] border border-line bg-surface px-4 py-3.5 shadow-[var(--shadow-card)] sm:px-5">
             <p className="text-[12.5px] font-medium text-ink-3">{m.label}</p>
-            <p className="tnum mt-0.5 text-2xl font-semibold">{m.value}</p>
+            <p className="tnum mt-0.5 text-xl font-semibold [overflow-wrap:anywhere] sm:text-2xl">{m.value}</p>
           </div>
         ))}
       </div>
