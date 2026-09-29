@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Lets phones on the same Wi-Fi reach the dev server via the computer's LAN IP (npm run mobile uses a production build instead).
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*", ...(process.env.ALLOWED_DEV_ORIGINS?.split(",").filter(Boolean) ?? [])],
-  // This app lives in a sub-folder of a repo that has its own lockfile.
+  // Pin the project root so Turbopack never picks up a lockfile from a parent folder.
   turbopack: { root: path.resolve(import.meta.dirname) },
   experimental: {
     // Document uploads go through Server Actions; keep in sync with UPLOAD_MAX_MB.

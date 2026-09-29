@@ -5,14 +5,11 @@
 
 One operating system for a tax office. Open it in the morning and immediately see what is due, who needs attention, who has not sent documents, who has not paid, how much was billed and collected, and what the team is working on.
 
-> This app lives in `taxpro-office/`. The existing restaurant app at the repository root is untouched.
-
 ---
 
 ## Quick start
 
 ```bash
-cd taxpro-office
 npm install
 cp .env.example .env.local     # set SESSION_SECRET for production
 npm run dev                    # migrates + seeds demo data on first run, then starts on :3000
@@ -22,7 +19,7 @@ Sign in with **varinder@taxpro.demo** / **TaxPro@2026** (Admin).
 
 ### Put it online (open from any phone)
 
-The repo root has a `render.yaml` blueprint. On [render.com](https://render.com): **New → Blueprint** → choose this repository and branch → **Apply**. You get an `https://….onrender.com` link. On the free plan the disk is temporary, so demo data is re-created on each restart/redeploy and the service sleeps when idle (first load can take ~1 minute).
+This repository includes a `render.yaml` blueprint. On [render.com](https://render.com): **New → Blueprint** → choose this repository and branch → **Apply**. You get an `https://….onrender.com` link. On the free plan the disk is temporary, so demo data is re-created on each restart/redeploy and the service sleeps when idle (first load can take ~1 minute).
 
 ### Open it on your phone (same Wi-Fi)
 
@@ -103,7 +100,6 @@ src/
 
 ### Design decisions worth knowing
 
-- **Separate folder, not a rewrite.** The repo already contains a Vite restaurant app; TaxPro Office is a new Next.js app in `taxpro-office/` so nothing existing is deleted.
 - **SQLite via Drizzle** gives a real relational database with zero setup; the schema and queries are portable to PostgreSQL by switching the Drizzle dialect/driver.
 - **Staff = Users.** The "Staff" entity is the `users` table with staff roles, avoiding two sources of truth for people.
 - **No hard-coded statutory due dates.** Compliance types (and their optional default due day) are editable data in Settings; each task stores its own due date.

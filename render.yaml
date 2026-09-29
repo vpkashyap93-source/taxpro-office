@@ -1,0 +1,25 @@
+# Render Blueprint for TaxPro Office .
+# Render → New → Blueprint → pick this repo/branch → Apply.
+# Note: on Render's free plan the disk is temporary, so the demo database is re-created
+# (fresh demo data) whenever the service restarts or redeploys. Add a persistent disk for real use.
+services:
+  - type: web
+    name: taxpro-office
+    runtime: node
+    plan: free
+    buildCommand: npm ci --include=dev && npm run build
+    startCommand: npm start
+    healthCheckPath: /login
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: SESSION_TTL_HOURS
+        value: "12"
+      - key: SHOW_DEMO_LOGINS
+        value: "true"
+      - key: DATABASE_PATH
+        value: ./data/taxpro.db
+      - key: STORAGE_LOCAL_DIR
+        value: ./data/uploads
