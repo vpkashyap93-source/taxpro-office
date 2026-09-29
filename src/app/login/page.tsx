@@ -62,13 +62,14 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
               <ul className="mt-2 space-y-1 text-[13px]">
                 {DEMO_USERS.map((u) => (
                   <li key={u.email} className="flex justify-between gap-2">
-                    <span className="font-mono text-ink-2">{u.email}</span>
-                    <span className="text-ink-3">{u.role}</span>
+                    <span className="min-w-0 truncate font-mono text-ink-2">{u.email}</span>
+                    <span className="shrink-0 text-ink-3">{u.role}</span>
                   </li>
                 ))}
               </ul>
             </div>
           )}
+          {process.env.RENDER_GIT_COMMIT && <p className="mt-6 text-center text-[11px] text-ink-4">Version {process.env.RENDER_GIT_COMMIT.slice(0, 7)}</p>}
         </div>
       </section>
     </div>
