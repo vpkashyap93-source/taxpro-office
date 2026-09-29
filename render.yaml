@@ -1,4 +1,4 @@
-# Render Blueprint for TaxPro Office .
+# Render Blueprint for TaxPro Office.
 # Render → New → Blueprint → pick this repo/branch → Apply.
 # Note: on Render's free plan the disk is temporary, so the demo database is re-created
 # (fresh demo data) whenever the service restarts or redeploys. Add a persistent disk for real use.
