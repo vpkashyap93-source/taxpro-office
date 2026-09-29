@@ -128,6 +128,7 @@ export function ActionForm({ action, children, ...rest }: Omit<ComponentProps<"f
     <PendingCtx.Provider value={pending}>
       <form
         noValidate
+        method="post" // if JS hasn't loaded, never fall back to GET (would put fields such as passwords in the URL)
         {...rest}
         aria-busy={pending}
         onSubmit={(e) => {

@@ -13,7 +13,8 @@
     "db:setup": "tsx scripts/seed.ts",
     "db:seed": "tsx scripts/seed.ts",
     "db:reset": "rm -rf data && tsx scripts/seed.ts",
-    "test:e2e": "node tests/e2e/smoke.mjs"
+    "test:e2e": "node tests/e2e/smoke.mjs",
+    "mobile": "npm run db:setup && node scripts/mobile.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

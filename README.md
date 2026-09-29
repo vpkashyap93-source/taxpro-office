@@ -20,6 +20,14 @@ npm run dev                    # migrates + seeds demo data on first run, then s
 
 Sign in with **varinder@taxpro.demo** / **TaxPro@2026** (Admin).
 
+### Open it on your phone (same Wi-Fi)
+
+```bash
+npm run mobile
+```
+
+It builds the app and prints an address such as `http://192.168.1.5:3000` — open that in Chrome on a phone connected to the same Wi-Fi. If the phone can't connect, allow Node.js through the computer's firewall (Windows asks the first time — choose "Private networks"). This mode relaxes the HTTPS-only cookie for LAN testing; don't use it for a real deployment.
+
 | Demo login | Role | What it shows |
 |---|---|---|
 | varinder@taxpro.demo | Admin | Everything |
@@ -33,6 +41,7 @@ Demo data (19 clients, ~90 invoices, payments, GST/ITR/TDS/ROC/audit work, docum
 | Script | Purpose |
 |---|---|
 | `npm run dev` / `npm start` | Run (runs `db:setup` first: migrations + seed if empty) |
+| `npm run mobile` | Build and serve on the local network for phone testing |
 | `npm run build` | Production build |
 | `npm run typecheck` / `npm run lint` | Static checks |
 | `npm test` | Unit tests (Vitest) |

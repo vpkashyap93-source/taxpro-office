@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
   // Native SQLite driver must stay a runtime dependency (not bundled).
   serverExternalPackages: ["better-sqlite3"],
   poweredByHeader: false,
+  // Lets phones on the same Wi-Fi reach the dev server via the computer's LAN IP (npm run mobile uses a production build instead).
+  allowedDevOrigins: ["192.168.*.*", "10.*.*.*", "172.*.*.*", ...(process.env.ALLOWED_DEV_ORIGINS?.split(",").filter(Boolean) ?? [])],
   // This app lives in a sub-folder of a repo that has its own lockfile.
   turbopack: { root: path.resolve(import.meta.dirname) },
   experimental: {
