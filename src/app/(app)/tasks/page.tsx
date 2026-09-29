@@ -90,9 +90,9 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
       <Card>
         <div className="flex flex-col gap-3 border-b border-line p-4 lg:flex-row lg:items-center lg:justify-between">
           <FilterChips active={view} chips={Object.entries(VIEWS).map(([k, v]) => ({ key: k, label: v.label, href: withParams("/tasks", base, { view: k === "today" ? undefined : k }), count: all.filter(v.test).length }))} />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex gap-2">
             {view !== "mine" && <SelectFilter param="staff" label="Assigned to" placeholder="Everyone" options={staff} />}
-            <SearchBox placeholder="Search tasks" className="sm:w-56" />
+            <SearchBox placeholder="Search tasks" className="min-w-0 flex-1 sm:w-56 sm:flex-none" />
           </div>
         </div>
         {view === "team" ? (

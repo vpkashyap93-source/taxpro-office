@@ -105,7 +105,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2 lg:justify-end">
+          <div className="scrollbar-none -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0 lg:justify-end [&>*]:shrink-0">
             {c.mobile && (
               <>
                 <LinkButton href={`tel:+91${c.mobile}`} variant="secondary" size="sm" icon={<Phone className="h-3.5 w-3.5" />}>Call</LinkButton>
@@ -116,7 +116,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
             {canEdit && <LinkButton href={`/clients/${c.id}?edit=${c.id}&tab=${tab}`} scroll={false} variant="primary" size="sm" icon={<Pencil className="h-3.5 w-3.5" />}>Edit</LinkButton>}
           </div>
         </div>
-        <div className="grid grid-cols-2 border-t border-line md:grid-cols-5">
+        <div className="grid grid-cols-2 border-t border-line md:grid-cols-5 [&>*:last-child:nth-child(odd)]:col-span-2 md:[&>*:last-child:nth-child(odd)]:col-span-1">
           {[
             ...(money ? [{ label: "Outstanding", value: formatINR(outstanding), tone: overdue ? "text-danger" : "text-ink", sub: overdue ? `${formatINR(overdue)} overdue` : "Nothing overdue" }] : []),
             ...(money ? [{ label: `Billed FY ${fy}`, value: formatINR(billedFy), tone: "text-ink", sub: `${p.invoices.length} invoices` }] : []),
@@ -134,7 +134,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
       </Card>
 
       {/* Quick actions */}
-      <div className="flex flex-wrap gap-2">
+      <div className="scrollbar-none -mx-4 flex gap-2 overflow-x-auto px-4 md:mx-0 md:flex-wrap md:px-0 [&>*]:shrink-0">
         {auth.can("billing", "edit") && <LinkButton href={`/billing/invoices/new?client=${c.id}`} variant="secondary" size="sm" icon={<FileText className="h-3.5 w-3.5" />}>Create Bill</LinkButton>}
         {auth.can("payments", "edit") && <LinkButton href={`/payments?new=1&client=${c.id}`} variant="secondary" size="sm" icon={<Wallet className="h-3.5 w-3.5" />}>Record Payment</LinkButton>}
         {auth.can("compliance", "edit") && <LinkButton href={`/compliance?new=1&client=${c.id}`} variant="secondary" size="sm" icon={<ClipboardCheck className="h-3.5 w-3.5" />}>New Compliance</LinkButton>}

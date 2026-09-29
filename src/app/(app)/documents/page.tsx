@@ -74,9 +74,9 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Se
       <Card>
         <div className="flex flex-col gap-3 p-4 lg:flex-row lg:items-center lg:justify-between">
           <FilterChips active={status} chips={Object.entries(STATUS).map(([k, v]) => ({ key: k, label: v.label, href: withParams("/documents", base, { status: k === "pending" ? undefined : k }), count: checklists.filter(v.test).length }))} />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex gap-2">
             <SelectFilter param="category" label="Category" placeholder="All categories" options={COMPLIANCE_CATEGORIES} />
-            <SearchBox placeholder="Client or document" className="sm:w-60" />
+            <SearchBox placeholder="Client or document" className="min-w-0 flex-1 sm:w-60 sm:flex-none" />
           </div>
         </div>
       </Card>

@@ -115,9 +115,9 @@ export default async function BillingPage({ searchParams }: { searchParams: Sear
               count: all.filter((i) => FILTERS[k].test(i.status, i.outstanding)).length,
             }))}
           />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex gap-2">
             <SelectFilter param="month" label="Billing month" placeholder="All months" options={monthOptions} />
-            <SearchBox placeholder="Client or invoice no." className="sm:w-60" />
+            <SearchBox placeholder="Client or invoice no." className="min-w-0 flex-1 sm:w-60 sm:flex-none" />
           </div>
         </div>
         <DataTable

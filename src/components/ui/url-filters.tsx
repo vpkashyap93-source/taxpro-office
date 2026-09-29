@@ -51,7 +51,7 @@ export function SearchBox({ param = "q", placeholder, className }: { param?: str
 export function SelectFilter({ param, options, placeholder, label, className }: { param: string; options: readonly (string | { value: string; label: string })[]; placeholder: string; label: string; className?: string }) {
   const { set, params } = useSetParam();
   return (
-    <Select aria-label={label} className={cn("w-auto min-w-40", className)} value={params.get(param) ?? ""} onChange={(e) => set({ [param]: e.target.value || null })} options={options} placeholder={placeholder} />
+    <Select aria-label={label} className={cn("w-36 shrink-0 sm:w-auto sm:min-w-40", className)} value={params.get(param) ?? ""} onChange={(e) => set({ [param]: e.target.value || null })} options={options} placeholder={placeholder} />
   );
 }
 

@@ -45,7 +45,9 @@ const { page } = admin;
 await step("login lands on dashboard with KPIs", async () => {
   expect(page.url().endsWith("/dashboard"), `url ${page.url()}`);
   for (const t of ["Total Clients", "Pending Work", "Unpaid Bills", "This Month Collection", "Documents Pending", "Today's Work", "Paperless Practice"]) {
-    expect(await page.getByText(t, { exact: false }).first().isVisible(), `missing ${t}`);
+    await page.getByText(t, { exact: false }).first().waitFor({ timeout: 15000 }).catch(() => {
+      throw new Error(`missing ${t}`);
+    });
   }
 });
 

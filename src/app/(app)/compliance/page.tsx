@@ -16,6 +16,7 @@ import { EmptyState } from "@/components/ui/states";
 import { ProgressBar } from "@/components/ui/progress";
 import { FilterChips, withParams } from "@/components/ui/filter-chips";
 import { SearchBox, SelectFilter } from "@/components/ui/url-filters";
+import { MobileFilters } from "@/components/ui/mobile-filters";
 import { InlineStatus } from "@/components/ui/inline-status";
 import { Pagination, paginate } from "@/components/ui/pagination";
 import { ComplianceHeaderActions, ComplianceModals } from "@/components/compliance/compliance-forms";
@@ -75,13 +76,13 @@ export default async function CompliancePage({ searchParams }: { searchParams: S
     <div className="space-y-6">
       <PageHeader title="Compliance" description="GST, ITR, TDS, CMA, ROC and audit work — one tracker. Due dates are editable data, not a tax-law engine." actions={canEdit ? <ComplianceHeaderActions /> : undefined} />
 
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 xl:grid-cols-6">
+      <div className="scrollbar-none -mx-4 flex snap-x gap-3 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 xl:grid-cols-6">
         {progress.map((p) => (
           <Link
             key={p.cat}
             href={withParams("/compliance", { ...base, due: sp.due }, { category: sp.category === p.cat ? undefined : p.cat })}
             aria-current={sp.category === p.cat ? "true" : undefined}
-            className={cn("rounded-[var(--radius-card)] border bg-surface p-4 shadow-[var(--shadow-card)] transition hover:border-line-strong", sp.category === p.cat ? "border-navy-900 ring-1 ring-navy-900" : "border-line")}
+            className={cn("w-36 shrink-0 snap-start rounded-[var(--radius-card)] border bg-surface p-4 shadow-[var(--shadow-card)] transition hover:border-line-strong md:w-auto", sp.category === p.cat ? "border-navy-900 ring-1 ring-navy-900" : "border-line")}
           >
             <div className="flex items-baseline justify-between">
               <p className="text-sm font-semibold">{p.cat}</p>
@@ -98,14 +99,16 @@ export default async function CompliancePage({ searchParams }: { searchParams: S
       <Card>
         <div className="space-y-3 border-b border-line p-4">
           <FilterChips active={due} chips={Object.entries(DUE).map(([k, v]) => ({ key: k, label: v.label, href: withParams("/compliance", base, { due: k === "open" ? undefined : k }), count: all.filter(v.test).filter((r) => !sp.category || r.category === sp.category).length }))} />
-          <div className="flex flex-wrap gap-2">
-            <SelectFilter param="category" label="Service" placeholder="All services" options={COMPLIANCE_CATEGORIES} />
-            <SelectFilter param="status" label="Status" placeholder="Any status" options={COMPLIANCE_STATUSES} />
-            <SelectFilter param="month" label="Month" placeholder="Any month" options={monthOpts} />
-            <SelectFilter param="fy" label="Financial year" placeholder="Any FY" options={fyOpts} />
-            <SelectFilter param="staff" label="Assigned to" placeholder="Anyone" options={staff} />
-            <SelectFilter param="client" label="Client" placeholder="All clients" options={clients.map((c) => ({ value: c.id, label: c.name }))} className="max-w-52" />
-            <SearchBox placeholder="Search…" className="w-full sm:w-52" />
+          <div className="flex flex-wrap items-start gap-2">
+            <SearchBox placeholder="Search client or return…" className="min-w-0 flex-1 md:order-last md:w-52 md:flex-none" />
+            <MobileFilters active={[sp.category, sp.status, sp.month, sp.fy, sp.staff, sp.client].filter(Boolean).length}>
+              <SelectFilter param="category" label="Service" placeholder="All services" options={COMPLIANCE_CATEGORIES} />
+              <SelectFilter param="status" label="Status" placeholder="Any status" options={COMPLIANCE_STATUSES} />
+              <SelectFilter param="month" label="Month" placeholder="Any month" options={monthOpts} />
+              <SelectFilter param="fy" label="Financial year" placeholder="Any FY" options={fyOpts} />
+              <SelectFilter param="staff" label="Assigned to" placeholder="Anyone" options={staff} />
+              <SelectFilter param="client" label="Client" placeholder="All clients" options={clients.map((c) => ({ value: c.id, label: c.name }))} className="md:max-w-52" />
+            </MobileFilters>
           </div>
         </div>
         <DataTable

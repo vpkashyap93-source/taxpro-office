@@ -76,9 +76,9 @@ export default async function PaymentsPage({ searchParams }: { searchParams: Sea
         <CardHeader title="Payment Tracker" subtitle={`${rows.length} payments`} />
         <div className="flex flex-col gap-3 border-b border-line px-4 pb-4 lg:flex-row lg:items-center lg:justify-between">
           <FilterChips active={rangeKey} chips={(Object.keys(ranges) as (keyof typeof ranges)[]).map((k) => ({ key: k, label: ranges[k].label, href: withParams("/payments", base, { range: k === "fy" ? undefined : k }) }))} />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex gap-2">
             <SelectFilter param="mode" label="Payment mode" placeholder="All modes" options={PAYMENT_MODES} />
-            <SearchBox placeholder="Client, invoice or reference" className="sm:w-64" />
+            <SearchBox placeholder="Client, invoice or reference" className="min-w-0 flex-1 sm:w-64 sm:flex-none" />
           </div>
         </div>
         <DataTable

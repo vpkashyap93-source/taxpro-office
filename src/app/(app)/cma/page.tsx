@@ -50,7 +50,7 @@ export default async function CmaListPage({ searchParams }: { searchParams: Sear
       <Card>
         <div className="flex flex-col gap-2 border-b border-line p-4 sm:flex-row sm:justify-end">
           <SelectFilter param="status" label="Status" placeholder="Any status" options={CMA_STATUSES} />
-          <SearchBox placeholder="Client, purpose or bank" className="sm:w-64" />
+          <SearchBox placeholder="Client, purpose or bank" className="min-w-0 flex-1 sm:w-64 sm:flex-none" />
         </div>
         <DataTable
           rows={rows}

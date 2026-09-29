@@ -9,6 +9,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { EmptyState } from "@/components/ui/states";
 import { GroupedBarChart, HBarList } from "@/components/ui/charts";
 import { DateFilter, SelectFilter } from "@/components/ui/url-filters";
+import { MobileFilters } from "@/components/ui/mobile-filters";
 import { buttonClass } from "@/components/ui/button";
 import { PrintButton } from "@/components/ui/print-button";
 import { withParams } from "@/components/ui/filter-chips";
@@ -76,12 +77,14 @@ export default async function ReportsPage({ searchParams }: { searchParams: Sear
         <div className="min-w-0 space-y-4">
           <Card className="no-print">
             <div className="flex flex-wrap items-end gap-2 p-4">
+              <MobileFilters active={[sp.from, sp.to, sp.fy, sp.client, sp.service, sp.staff].filter(Boolean).length}>
               <label className="grid grid-cols-1 gap-1 text-xs text-ink-3">From<DateFilter param="from" label="From date" fallback={filters.from} /></label>
               <label className="grid grid-cols-1 gap-1 text-xs text-ink-3">To<DateFilter param="to" label="To date" fallback={filters.to} /></label>
               <SelectFilter param="fy" label="Financial year" placeholder={`FY ${filters.fy}`} options={fyOptions.map((f) => ({ value: f, label: `FY ${f}` }))} />
-              <SelectFilter param="client" label="Client" placeholder="All clients" options={clientOptions(auth.firm.id, { includeInactive: true })} className="max-w-52" />
+              <SelectFilter param="client" label="Client" placeholder="All clients" options={clientOptions(auth.firm.id, { includeInactive: true })} className="md:max-w-52" />
               <SelectFilter param="service" label="Service" placeholder="All services" options={isWork ? COMPLIANCE_CATEGORIES : BILLING_SERVICES} />
               {isWork && <SelectFilter param="staff" label="Staff" placeholder="All staff" options={staffOptions(auth.firm.id)} />}
+              </MobileFilters>
               {key && (
                 <div className="ms-auto flex gap-2">
                   <a href={`/api/reports/${key}${qs ? `?${qs}` : ""}`} className={buttonClass("secondary")}><Download className="h-4 w-4" /> Export CSV</a>

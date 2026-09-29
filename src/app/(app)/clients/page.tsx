@@ -72,9 +72,9 @@ export default async function ClientsPage({ searchParams }: { searchParams: Sear
               chip("inactive", "Inactive"),
             ]}
           />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex gap-2">
             <SelectFilter param="service" label="Service type" placeholder="All services" options={SERVICES} />
-            <SearchBox placeholder="Name, PAN, GSTIN, mobile, email" className="sm:w-72" />
+            <SearchBox placeholder="Name, PAN, GSTIN, mobile, email" className="min-w-0 flex-1 sm:w-72 sm:flex-none" />
           </div>
         </div>
         <DataTable

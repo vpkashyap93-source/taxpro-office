@@ -42,10 +42,10 @@ export default async function NoticesPage({ searchParams }: { searchParams: Sear
       <Card>
         <div className="flex flex-col gap-3 border-b border-line p-4 lg:flex-row lg:items-center lg:justify-between">
           <FilterChips active={view} chips={Object.entries(VIEWS).map(([k, v]) => ({ key: k, label: v.label, href: withParams("/notices", base, { view: k === "open" ? undefined : k }), count: all.filter(v.test).length }))} />
-          <div className="flex flex-col gap-2 sm:flex-row">
+          <div className="flex flex-wrap gap-2">
             <SelectFilter param="department" label="Department" placeholder="All departments" options={DEPARTMENTS} />
             <SelectFilter param="status" label="Status" placeholder="Any status" options={NOTICE_STATUSES} />
-            <SearchBox placeholder="Client, type, DIN" className="sm:w-56" />
+            <SearchBox placeholder="Client, type, DIN" className="min-w-0 basis-full sm:basis-auto sm:w-56" />
           </div>
         </div>
         <DataTable
