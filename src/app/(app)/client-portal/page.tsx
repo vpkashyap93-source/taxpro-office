@@ -22,7 +22,7 @@ export default async function ClientPortalAdmin() {
   return (
     <div className="space-y-6">
       <PageHeader title="Client Portal" description="Give clients a secure login to see their compliance status, pending documents, bills and payments — and upload documents themselves." />
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {[
           { icon: <Globe className="h-4 w-4" />, title: "What clients see", text: "Profile, compliance status, pending documents (with upload), bills, payments, reports and notices." },
           { icon: <Lock className="h-4 w-4" />, title: "Private by design", text: "Each client sees only their own records. Staff notes, other clients and firm finances are never exposed." },

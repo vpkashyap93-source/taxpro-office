@@ -77,13 +77,13 @@ export function InvoiceForm({
   const update = (key: number, patch: Partial<Line>) => setLines((ls) => ls.map((l) => (l.key === key ? { ...l, ...patch } : l)));
 
   return (
-    <ActionForm action={formAction} noValidate className="grid gap-6 xl:grid-cols-3">
+    <ActionForm action={formAction} noValidate className="grid grid-cols-1 gap-6 xl:grid-cols-3">
       <input type="hidden" name="items" value={itemsJson} />
       <div className="space-y-6 xl:col-span-2">
         <FormError message={formError} />
         <Card>
           <CardHeader title="Invoice details" />
-          <CardBody className="grid gap-4 sm:grid-cols-2">
+          <CardBody className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Field label="Client" htmlFor="clientId" required error={err("clientId")} className="sm:col-span-2">
               <Select id="clientId" name="clientId" value={clientId} onChange={(e) => setClientId(e.target.value)} options={clients} placeholder="Select a client…" invalid={!!err("clientId")} />
             </Field>

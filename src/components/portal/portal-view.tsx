@@ -62,7 +62,7 @@ export function PortalView({ firmId, clientId, tab: rawTab, base, preview }: { f
         <Card>
           <CardHeader title="My Profile" subtitle="If anything is incorrect, please inform your consultant." />
           <CardBody>
-            <dl className="grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
+            <dl className="grid grid-cols-1 gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
               {[
                 ["Name", p.client.name],
                 ["Trade name", p.client.tradeName],

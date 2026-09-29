@@ -47,7 +47,7 @@ export default async function PaymentsPage({ searchParams }: { searchParams: Sea
   return (
     <div className="space-y-6">
       <PageHeader title="Payments" description="Every rupee received, against which bill." actions={canEdit ? <RecordPaymentButton /> : undefined} />
-      <div className="grid gap-6 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:col-span-5">
           {[
             { label: `Collected · ${range.label}`, value: formatINR(total), tone: "text-brand", sub: `${rows.length} payments` },

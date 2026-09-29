@@ -20,7 +20,7 @@ export default async function HelpPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="Help & shortcuts" description="Quick guides for everyday work in TaxPro Office." />
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
         {GUIDES.map(([t, d, href]) => (
           <Link key={t} href={href} className="rounded-[var(--radius-card)] border border-line bg-surface p-5 shadow-[var(--shadow-card)] hover:border-line-strong">
             <p className="text-sm font-semibold">{t}</p>
@@ -28,7 +28,7 @@ export default async function HelpPage() {
           </Link>
         ))}
       </div>
-      <div className="grid gap-6 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <Card>
           <CardHeader title="Keyboard" icon={<Keyboard className="h-4 w-4" />} />
           <CardBody className="space-y-2 text-sm">

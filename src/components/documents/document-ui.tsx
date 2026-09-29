@@ -315,7 +315,7 @@ export function NewChecklistModal({ clients, periods, onClose, initialClient }: 
         <div className="mt-5">
           <p className="mb-2 text-[13px] font-medium text-ink-2">Required documents</p>
           {err("items") && <p className="mb-2 text-sm text-danger">{err("items")}</p>}
-          <div className="grid gap-1 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-1 sm:grid-cols-2">
             {template.map((t) => (
               <label key={t} className="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-subtle">
                 <input type="checkbox" name="items" value={t} checked={items.includes(t)} onChange={(e) => setItems((xs) => (e.target.checked ? [...xs, t] : xs.filter((x) => x !== t)))} className="h-4 w-4 accent-brand" />

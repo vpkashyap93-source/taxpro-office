@@ -145,7 +145,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
       <Tabs active={tab} items={visibleTabs.map((t) => ({ key: t, label: TAB_LABEL[t], href: `/clients/${c.id}?tab=${t}`, count: counts[t] }))} />
 
       {tab === "overview" && (
-        <div className="grid gap-6 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
           <div className="space-y-6 xl:col-span-2">
             <Card>
               <CardHeader title="Open work" subtitle="Compliance not yet completed or filed" />
@@ -154,7 +154,7 @@ export default async function ClientProfilePage({ params, searchParams }: { para
             <Card>
               <CardHeader title="Profile" />
               <CardBody>
-                <dl className="grid gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
+                <dl className="grid grid-cols-1 gap-x-8 gap-y-3 text-sm sm:grid-cols-2">
                   <Detail label="Mobile" value={c.mobile} />
                   <Detail label="Email" value={c.email} />
                   <Detail label="Address" value={[c.address, c.city, c.state].filter(Boolean).join(", ")} />

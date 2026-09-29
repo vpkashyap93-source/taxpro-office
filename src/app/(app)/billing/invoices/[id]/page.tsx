@@ -70,7 +70,7 @@ export default async function InvoicePage({ params, searchParams }: { params: Pr
         />
       </div>
 
-      <div className="grid gap-6 xl:grid-cols-[1fr_300px] 2xl:grid-cols-[1fr_340px]">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_300px] 2xl:grid-cols-[1fr_340px]">
         {/* Printable invoice */}
         <InvoiceDocument inv={inv} client={client} items={items} firm={firm} settings={settings} bank={bank} paid={paid} outstanding={outstanding} />
 

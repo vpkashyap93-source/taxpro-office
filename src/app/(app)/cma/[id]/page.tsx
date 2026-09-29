@@ -64,7 +64,7 @@ export default async function CmaReportPage({ params }: { params: Promise<{ id: 
           </div>
         </header>
 
-        <dl className="grid gap-x-8 gap-y-2 py-5 text-sm sm:grid-cols-2">
+        <dl className="grid grid-cols-1 gap-x-8 gap-y-2 py-5 text-sm sm:grid-cols-2">
           {[
             ["Borrower", client.name],
             ["Constitution", client.constitution ?? "—"],
@@ -82,7 +82,7 @@ export default async function CmaReportPage({ params }: { params: Promise<{ id: 
           ))}
         </dl>
 
-        <section className="grid gap-6 border-t border-line pt-5 md:grid-cols-2">
+        <section className="grid grid-cols-1 gap-6 border-t border-line pt-5 md:grid-cols-2">
           {[...new Set(CMA_INPUT_FIELDS.map((f) => f.group))].map((g) => (
             <div key={g}>
               <h2 className="mb-2 text-[11px] font-semibold tracking-[0.12em] text-ink-3 uppercase">{g}</h2>

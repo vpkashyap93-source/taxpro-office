@@ -81,7 +81,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* KPIs */}
-      <div className={cn("grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3", d.finance ? "min-[1360px]:grid-cols-6" : "xl:grid-cols-4")}>
+      <div className={cn("grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3", d.finance ? "min-[85rem]:grid-cols-6" : "xl:grid-cols-4")}>
         <KpiCard href="/clients" label="Total Clients" value={d.kpis.totalClients} caption={`${d.kpis.activeClients} active`} icon={<Users className="h-4.5 w-4.5" />} />
         <KpiCard href="/compliance?due=pending" label="Pending Work" value={d.kpis.pendingWork} caption={d.kpis.overdueWork ? `${d.kpis.overdueWork} overdue` : "Due today"} icon={<ClipboardList className="h-4.5 w-4.5" />} accent={d.kpis.overdueWork ? "danger" : "warn"} />
         {d.finance && (
@@ -95,7 +95,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Today's work + attention */}
-      <div className="grid gap-6 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         <Card className="xl:col-span-8">
           <CardHeader
             title="Today's Work"
@@ -171,7 +171,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Billing + compliance */}
-      <div className="grid gap-6 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         {d.finance && d.summaryFY && (
           <Card className="xl:col-span-8">
             <CardHeader
@@ -238,7 +238,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Lists */}
-      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-3">
         {d.finance && (
           <Card>
             <CardHeader title="Overdue Bills" subtitle="Largest balances first" action={<Link href="/billing?status=overdue" className="text-[13px] font-medium text-navy-600 hover:underline">All</Link>} />
@@ -326,7 +326,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Trend, top clients, team */}
-      <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 xl:grid-cols-12">
         {d.finance && (
           <Card className="lg:col-span-2 xl:col-span-5">
             <CardHeader title="Revenue Trend" subtitle="Billed per month, last six months" />

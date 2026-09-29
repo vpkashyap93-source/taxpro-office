@@ -86,14 +86,14 @@ export default async function DocumentsPage({ searchParams }: { searchParams: Se
           <EmptyState icon={<FileStack className="h-5.5 w-5.5" />} title={status === "pending" ? "All documents received" : "No document requests"} description="Create a request to track what each client needs to send." />
         </Card>
       ) : (
-        <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 2xl:grid-cols-3">
           {rows.map((c) => {
             const needed = c.items.filter((i) => i.status !== "Not Required");
             const got = needed.filter((i) => i.status === "Received").length;
             const pct = percent(got, needed.length);
             const overdue = c.pending > 0 && c.dueDate && c.dueDate < today;
             return (
-              <Link key={c.id} href={withParams("/documents", { ...base, status: sp.status }, { checklist: c.id })} scroll={false} className="group rounded-[var(--radius-card)] border border-line bg-surface p-5 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-raised)]">
+              <Link key={c.id} href={withParams("/documents", { ...base, status: sp.status }, { checklist: c.id })} scroll={false} className="group min-w-0 rounded-[var(--radius-card)] border border-line bg-surface p-5 shadow-[var(--shadow-card)] transition hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-raised)]">
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
                     <p className="truncate text-sm font-semibold group-hover:underline">{c.clientName}</p>

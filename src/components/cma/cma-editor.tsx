@@ -44,7 +44,7 @@ export function CmaEditor({ initial, clients, staff }: { initial: CmaInitial; cl
   const inputsJson = JSON.stringify(inputs);
 
   return (
-    <ActionForm action={formAction} noValidate className="grid gap-6 xl:grid-cols-[1fr_380px]">
+    <ActionForm action={formAction} noValidate className="grid grid-cols-1 gap-6 xl:grid-cols-[1fr_380px]">
       <input type="hidden" name="inputs" value={inputsJson} />
       <div className="space-y-6">
         <FormError message={formError} />
@@ -88,7 +88,7 @@ export function CmaEditor({ initial, clients, staff }: { initial: CmaInitial; cl
         {GROUPS.map((g) => (
           <Card key={g}>
             <CardHeader title={g} subtitle="Amounts in ₹ (whole rupees)" />
-            <CardBody className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <CardBody className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {CMA_INPUT_FIELDS.filter((f) => f.group === g).map((f) => (
                 <Field key={f.key} label={f.label} htmlFor={`in-${f.key}`}>
                   <MoneyInput id={`in-${f.key}`} value={values[f.key]} onChange={(e) => setValues((v) => ({ ...v, [f.key]: e.target.value }))} className="text-right" placeholder="0" />

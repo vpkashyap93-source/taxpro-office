@@ -96,7 +96,7 @@ export default async function TasksPage({ searchParams }: { searchParams: Search
           </div>
         </div>
         {view === "team" ? (
-          <div className="grid gap-4 p-4 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 2xl:grid-cols-3">
             {staff.filter((s) => !sp.staff || s.value === sp.staff).map((s) => {
               const mine = rows.filter((t) => t.assignedTo === s.value);
               return (

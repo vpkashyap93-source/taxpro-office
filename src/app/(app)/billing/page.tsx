@@ -72,7 +72,7 @@ export default async function BillingPage({ searchParams }: { searchParams: Sear
         }
       />
 
-      <div className="grid gap-6 xl:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:col-span-4 xl:grid-cols-1">
           {[
             { label: "Invoices Generated", value: summary.generated, tone: "text-ink", href: withParams("/billing", base, {}) },

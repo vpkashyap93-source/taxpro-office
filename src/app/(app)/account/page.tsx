@@ -12,7 +12,7 @@ export default async function AccountPage() {
   return (
     <div className="space-y-6">
       <PageHeader title="My Account" />
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader title="Profile" />
           <CardBody>

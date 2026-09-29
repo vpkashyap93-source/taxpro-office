@@ -52,7 +52,7 @@ export default async function SettingsPage() {
           </table>
         </div>
       </Card>
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader title="Storage & data" icon={<Database className="h-4 w-4" />} />
           <CardBody className="space-y-3 text-sm">
@@ -73,7 +73,7 @@ export default async function SettingsPage() {
       </div>
       <Card>
         <CardHeader title="Security" icon={<ShieldCheck className="h-4 w-4" />} />
-        <CardBody className="grid gap-3 text-sm sm:grid-cols-2">
+        <CardBody className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
           <Row label="Passwords" value="bcrypt (cost 12), never stored in plain text" />
           <Row label="Sessions" value={`HTTP-only cookie, ${process.env.SESSION_TTL_HOURS ?? 12}h expiry, HMAC-hashed at rest`} />
           <Row label="Access control" value={<Link href="/team" className="text-navy-600 hover:underline">Role permissions matrix</Link>} />

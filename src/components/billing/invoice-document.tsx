@@ -49,7 +49,7 @@ export function InvoiceDocument({ inv, client, items, firm, settings, bank, paid
             </div>
           </header>
 
-          <section className="grid gap-6 py-6 sm:grid-cols-2">
+          <section className="grid grid-cols-1 gap-6 py-6 sm:grid-cols-2">
             <div>
               <p className="mb-1.5 text-[10.5px] font-semibold tracking-[0.12em] text-ink-3 uppercase">Bill To</p>
               <p className="font-semibold text-ink">{client.name}</p>
